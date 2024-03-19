@@ -1,38 +1,60 @@
-.App {
-  text-align: center;
+.container-form {
+  width: 15vw;
+  min-width: 250px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.newGame {
+  visibility: hidden;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.stopGame {
+border-radius: 5px;
+height: 40px;
+line-height: 40px;
+background-color: red;
+color: #fff;
+text-align: center;
+cursor: pointer;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.canvas {
+  width: 75vw;
+  min-width: 1020px;
 }
 
-.App-link {
-  color: #61dafb;
+.over {
+  position: absolute;
+  visibility: hidden;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  font-size: 3rem;
+  border: 5px solid rgb(167, 123, 3);
+  border-radius: 10px;
+  padding: 10px 30px 15px 30px;
+  background-color: #fff;
+  z-index: 10;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.visible {
+  visibility: visible;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+#canvas {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 10px solid rgb(167, 123, 3);
+  border-radius: 15px;
+  background-color: #027912;
+}
+
+.chooseColor {
+  position: absolute;
+  visibility: hidden;
+  z-index: 10;
 }
