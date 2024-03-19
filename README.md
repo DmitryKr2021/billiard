@@ -6,3 +6,5 @@
 - the goal of the game is to drive any ball into the central pocket
 - after this the message will appear: "Game over!"
 - to start a new game press the button "New game"
+
+#### [See deploy](https://billiard-drab.vercel.app/)
