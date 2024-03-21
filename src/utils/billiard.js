@@ -10,6 +10,7 @@ const billiard = (number) => {
   const canvas = document.getElementById('canvas');
   const widthCanvas = 1000;
   const heightCanvas = 800;
+
   const colors = [
     'blue',
     'red',
@@ -53,7 +54,7 @@ const billiard = (number) => {
     if (Math.abs(v) < r / 5) {
       t = 0;
     }
-    return -t;
+    return -Math.round(t);
   };
 
   const getXY = (e) => {
@@ -64,7 +65,6 @@ const billiard = (number) => {
 
   const initCanvas = () => {
     const ctx = canvas.getContext('2d');
-
     class Ball {
       constructor(r, x, y, vx, vy, color) {
         this.r = r;
@@ -216,19 +216,6 @@ const billiard = (number) => {
       window.requestAnimationFrame(draw);
     }
 
-    const pulse = (e, ball) => {
-      const [ex, ey] = getXY(e);
-      ball.vx = (ex - ball.x) / 10;
-      ball.vy = (ey - ball.y) / 10;
-    };
-
-    const ballPush = (ball) => {
-      const f = (e) => pulse(e, ball);
-      canvas.addEventListener('mousemove', f);
-      setTimeout(() => canvas.removeEventListener('mousemove', f), 500);
-      window.requestAnimationFrame(draw);
-    };
-
     const handleMoveUp = (e) => {
       const [ex, ey] = getXY(e);
       const dists = [];
@@ -245,6 +232,30 @@ const billiard = (number) => {
       }
     };
 
+    window.requestAnimationFrame(draw);
+
+    const ballPush = (e, ball) => {
+      const eXStart = e.clientX;
+      const eYStart = e.clientY;
+      const t1 = performance.now();
+      const f = (ev) => {
+        const eXEnd = ev.clientX;
+        const eYEnd = ev.clientY;
+        const stepX = eXEnd - eXStart;
+        const stepY = eYEnd - eYStart;
+        if (
+          (Math.abs(stepX) > 20 && Math.abs(stepX) < 30) ||
+          (Math.abs(stepY) > 20 && Math.abs(stepY) < 30)
+        ) {
+          const t2 = performance.now() - t1;
+          ball.vx = Math.round((70 * stepX) / t2);
+          ball.vy = Math.round((70 * stepY) / t2);
+        }
+      };
+      canvas.addEventListener('mousemove', f);
+      setTimeout(() => canvas.removeEventListener('mousemove', f), 500);
+    };
+
     const changeColor = (e, ball) => {
       const ex = e.clientX;
       const ey = ball.y;
@@ -253,35 +264,30 @@ const billiard = (number) => {
       chooseColor.style.top = `${ey}px`;
       chooseColor.style.left = `${ex}px`;
       col.addEventListener('input', (ev) => {
-        if(ball.active) {
+        if (ball.active) {
           ball.color = ev.target.value;
           ball.draw();
-        };
+        }
         col.classList.add('hidden');
       });
     };
 
     const handleDown = (e) => {
-      balls.forEach((ball) => {ball.active = false});
+      balls.forEach((ball) => {
+        ball.active = false;
+      });
       document.oncontextmenu = () => false;
       const [ex, ey] = getXY(e);
-      const dists = [];
-      balls.forEach((ball, ind) => {
-        dists[ind] = {
-          dist: Math.sqrt((ex - ball.x) ** 2 + (ey - ball.y) ** 2),
-          r: ball.r,
-        };
-      });
-      if (dists.some((el) => el.dist < el.r * 1.5)) {
-        canvas.style.cursor = e.which === 1 ? 'grabbing' : 'default';
-      }
-      dists.forEach((el, ind) => {
-        if (el.dist < el.r * 1.5) {
+      balls.forEach((ball) => {
+        const dist = Math.sqrt((ex - ball.x) ** 2 + (ey - ball.y) ** 2);
+        if (dist < ball.r * 1.5) {
           if (e.which === 1) {
-            ballPush(balls[ind]);
+            canvas.style.cursor = 'grabbing';
+            ballPush(e, ball);
           } else {
-            balls[ind].active = true;
-            changeColor(e, balls[ind]);
+            canvas.style.cursor = 'default';
+            ball.active = true;
+            changeColor(e, ball);
             col.classList.remove('hidden');
           }
         }
