@@ -2,7 +2,7 @@
 import React from 'react';
 
 const MyCanvas = () => (
-  <div className="canvas position-relative">
+  <div className="position-relative">
     <div className="over">Game over!</div>
     <canvas id="canvas" />
   </div>

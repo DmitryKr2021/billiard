@@ -8,7 +8,7 @@ const billiard = (number) => {
   const chooseColor = document.querySelector('.chooseColor');
   const numberInput = document.querySelector('.numberInput');
   const canvas = document.getElementById('canvas');
-  const widthCanvas = 1000;
+  const widthCanvas = 1200;
   const heightCanvas = 800;
 
   const colors = [
