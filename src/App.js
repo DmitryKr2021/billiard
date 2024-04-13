@@ -65,6 +65,7 @@ function App() {
                 after this the message will appear: &quot;Game over!&quot;
               </li>
               <li>to start a new game press the button &quot;New game&quot;</li>
+              <li>to change the color of the ball, right-click on it</li>
             </ul>
           </div>
         </div>
