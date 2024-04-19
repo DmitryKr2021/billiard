@@ -17,11 +17,6 @@ text-align: center;
 cursor: pointer;
 }
 
-.canvas {
-  width: 90vw;
-  min-width: 1020px;
-}
-
 .over {
   position: absolute;
   visibility: hidden;
